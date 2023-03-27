@@ -22,6 +22,25 @@ MODELO={
     ('a3-servida','esperar','servida'):'sin.moneda'
 }
 
+"""Pesudocodigo
+funcion Agente-Reactivo-Con-Estado(percepcion,modelo,estado_inicial,accion_inicial)
+    variables estaticas
+            estado=estado_inicial
+            reglas={{
+                condicion1:accion1,
+                condicion2:accion2,
+                condicion3:accion3,
+                ...
+                }
+            accion=accion_inicial|vacia
+    estado=modelo.actualizarEstado(estado,accion,percepcion)
+    regla=reglas.estado
+    accion=reglas[regla]
+    
+    return accion
+
+"""
+
 class AgenteModelos:
     """Agente racional de tipo reactivo basado en modelo"""
     def __init__(self,modelo,reglas,estado_inicial='',accion_inicial='') -> None:
@@ -38,29 +57,35 @@ class AgenteModelos:
         Args:
             percepcion (_type_): _description_
         """
-        
+        # se valida la existencia de la percepcion
         if not percepcion:
             return self.accion_inicial
         
+        # se crea la clave segun el estado actual
         clave=(self.estado,self.ultima_accion,percepcion)
         
+        #buscamos el estado en el modelo
         if clave not in self.modelo.keys():
             # en caso de que no exista el estado
             self.estado=self.estado_inicial
             self.accion=None
             self.ultima_accion=self.accion_inicial
             return self.accion_inicial
+        else:
+            # si el la clave coincide actualizamos el estade
+            self.estado=self.modelo[clave]
         
-        self.estado=self.modelo[clave] # actualizando el estado
+        # se busca la regla segun el estado
         if self.estado not in self.reglas.keys():
             # en caso de que no exista la regla
             self.accion=None
             self.ultima_accion=self.accion_inicial
             return self.accion_inicial
-        
-        accion=self.reglas[self.estado]
-        self.ultima_accion=accion # actualizando la accion
-        return accion
+        else:
+            # se busca la accion segun la regla
+            accion=self.reglas[self.estado]
+            self.ultima_accion=accion # actualizando la accion
+            return accion
     
 print("Agente reactivo basado en modelos: Maquina Expendedora")
 
