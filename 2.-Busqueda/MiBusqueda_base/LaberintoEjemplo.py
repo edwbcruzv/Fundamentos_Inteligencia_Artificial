@@ -205,8 +205,20 @@ if __name__ == '__main__':
     }
     
     
-    problema_lab=Problema(estado_inicial=C_7O,estados_objetivos=[C_12L],espacio_estados=Espacio_Estados)
+    problema_lab=Problema(estado_inicial=C_4F,estados_objetivos=[C_5M],espacio_estados=Espacio_Estados)
     print(problema_lab)
     
     busqueda=BFS(problema_lab)
+    muestraSolucion(busqueda)
+
+    problema_lab=Problema(estado_inicial=C_4F,estados_objetivos=[C_5M],espacio_estados=Espacio_Estados)
+    print(problema_lab)
+    
+    busqueda=DFS(problema_lab)
+    muestraSolucion(busqueda)
+    
+    problema_lab=Problema(estado_inicial=C_4F,estados_objetivos=[C_5M],espacio_estados=Espacio_Estados)
+    print(problema_lab)
+    
+    busqueda=DFS_R(problema_lab)
     muestraSolucion(busqueda)

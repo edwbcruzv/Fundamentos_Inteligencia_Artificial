@@ -1,3 +1,10 @@
+# Modulo de los algoritmos de busqueda Informada y No Informada
+
+
+
+
+
+### Uno de los grafos utilizados en los ejemplos de busqueda en grafos
 
 
 ```mermaid

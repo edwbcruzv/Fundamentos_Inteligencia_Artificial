@@ -1,3 +1,5 @@
+from _collections_abc import MutableMapping
+
 
 class Accion:
     """
@@ -65,11 +67,11 @@ class Problema:
     Modelo abstracto del problema segun la definicion y que es interpretada
     por cualquier algorito que necesite de ella.
     """
-    def __init__(self, estado_inicial: Estado, estados_objetivos: list, espacio_estados: dict,costos:dict=None) -> None:
+    def __init__(self, estado_inicial: Estado, estados_objetivos: list, espacio_estados: dict|MutableMapping,costos:dict|MutableMapping=None) -> None:
         self.Estado_Inicial = estado_inicial
         self.Estados_Objetivos = estados_objetivos
         self.Espacio_Estados = espacio_estados
-        
+        self.__num_Objetivos=len(self.Estados_Objetivos)
         self.Costos=costos
         self.CostoInfinito=99999999999999999999
         
@@ -83,8 +85,9 @@ class Problema:
                     self.Costos[estado][accion]=1
             
 
-    def testObjetivo(self, estado: Estado) -> bool:
+    def testObjetivo(self, estado: Estado) -> tuple:
         if isinstance(estado, Estado):
+            self.__num_Objetivos = self.__num_Objetivos-1
             return estado in self.Estados_Objetivos
         else:
             return None
