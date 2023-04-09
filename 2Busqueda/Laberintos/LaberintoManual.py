@@ -1,60 +1,11 @@
 from MiBusqueda.NoInformada import *
-import numpy as np
+
 if __name__ == '__main__':
     # Acciones
     U = Accion('U')  # Arriba
     D = Accion('D')  # Abajo
     L = Accion('L')  # Izquierda
     R = Accion('R')  # Derecha
-
-    # Estados
-    estados_lista = []
-    # estados_labels = [
-    #     (1, 9),
-    #     (1, 14),
-    #     (2, 4),
-    #     (2, 5),
-    #     (2, 9),
-    #     (2, 11),
-    #     (2, 14),
-    #     (2, 15),
-    #     (3, 2),
-    #     (3, 11),
-    #     (4, 3),
-    #     (4, 4),
-    #     (4, 6),
-    #     (4, 13),
-    #     (5, 9),
-    #     (5, 13),
-    #     (7, 4),
-    #     (7, 7),
-    #     (7, 9),
-    #     (7, 12),
-    #     (7, 15),
-    #     (8, 11),
-    #     (9, 4),
-    #     (9, 8),
-    #     (10, 1),
-    #     (10, 10),
-    #     (10, 12),
-    #     (12, 2),
-    #     (12, 14),
-    #     (13, 4),
-    #     (13, 6),
-    #     (13, 8),
-    #     (13, 10),
-    #     (13, 14),
-    #     (14, 14),
-    #     (15, 2),
-    #     (15, 4),
-    #     (15, 8),
-    #     (15, 12)
-    # ]
-    # for i, j in estados_labels:
-    #     label = "C_{0}{1}=Estado('C_{0}{1}',[])".format(i, chr(64+j))
-    #     print(label)
-
-    
     
     C_1I = Estado('C_1I', [D])
     C_1N = Estado('C_1N', [D])
@@ -204,21 +155,18 @@ if __name__ == '__main__':
         C_15L: {U: 2}
     }
     
-    
-    problema_lab=Problema(estado_inicial=C_4F,estados_objetivos=[C_5M],espacio_estados=Espacio_Estados)
-    print(problema_lab)
-    
-    busqueda=BFS(problema_lab)
-    muestraSolucion(busqueda)
-
-    problema_lab=Problema(estado_inicial=C_4F,estados_objetivos=[C_5M],espacio_estados=Espacio_Estados)
-    print(problema_lab)
-    
-    busqueda=DFS(problema_lab)
-    muestraSolucion(busqueda)
-    
-    problema_lab=Problema(estado_inicial=C_4F,estados_objetivos=[C_5M],espacio_estados=Espacio_Estados)
-    print(problema_lab)
-    
-    busqueda=DFS_R(problema_lab)
-    muestraSolucion(busqueda)
+    res1 = BFS(Problema(estado_inicial=C_4F, estados_objetivos=[C_5M], espacio_estados=Espacio_Estados))
+    res2 = DFS(Problema(estado_inicial=C_4F, estados_objetivos=[C_5M], espacio_estados=Espacio_Estados))
+    res3 = DFS_R(Problema(estado_inicial=C_4F, estados_objetivos=[C_5M], espacio_estados=Espacio_Estados))
+    print("BFS")
+    print(res1[0])
+    print(res1[1])
+    print(res1[2])
+    print("DFS")
+    print(res2[0])
+    print(res2[1])
+    print("DFS_R")
+    print(res2[0])
+    print(res3[0])
+    print(res3[1])
+    print(res3[2])

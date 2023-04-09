@@ -140,22 +140,6 @@ class Problema:
                         [estados.Nombre for estados in self.Estados_Objetivos],
                         [accion.__str__() for accion in self.Espacio_Estados])
 
-"""
-nodo.Estado=problema.sucesorFN(padre.Estado,accion)
-nodo.Padre=padre
-nodo.Acciones=problema.Estado_Estados(estado)
-nodo.Coste=padre.Coste+problema.Coste_Accion(padre.Estado,accion)
-function NodoHijo(problema,padre,accion)
-    return nodo
-funcion nodo.expandir(problema)
-    variables_estaticas:
-        nodos=[]
-    
-    for accion in noto.Acciones:
-        nodo_hijo=NodoHijo(problema,padre,accion)
-        nodos.addpend(nodo_hijo)
-    return nodos
-"""
 
 class Nodo:
     """
@@ -209,7 +193,7 @@ class Nodo:
             self.Hijos.append(hijo)
         return self.Hijos
 
-    def mejorHijo(self,problema):
+    def mejorHijo(self,problema:Problema):
         
         if not self.Hijos:
             return None
@@ -232,5 +216,48 @@ class Nodo:
         if isinstance(nuevo_nodo, Nodo) and not nuevo_nodo.Accion_Padre==None :
             nuevo_nodo.Padre=self
             self.Hijos.append(nuevo_nodo)
-    
-    
+
+    def soluciones(self, problema: Problema, info: bool = False):  # Listo
+        if info:
+            print("=========================Camino del objetivo al nodo raiz con costos============================")
+        if not problema:
+            if info:
+                print("Falta el problema para calcular el costo.")
+                print("================================================================================================")
+            return
+        nodo = self
+        if not problema:
+            return []
+        list_states = [] # [state,state,...,state]
+        list_states_actions = [] # [state,action,state,action,...,....,state]
+        list_states_actions_cost = [] #[(state,total_cost),(action,cost),......(state,total_cost)]
+        nodo = self
+        while nodo:
+            if info:
+                msg = "Estado "+nodo.Estado.__str__()+", Costo total:"+str(nodo.Costo)
+                print(msg)
+            
+            list_states.append(nodo.Estado.__str__())
+            
+            list_states_actions.append(nodo.Estado.__str__())
+            
+            list_states_actions_cost.append((nodo.Estado.__str__(), nodo.Costo))
+            
+            if nodo.Accion_Padre:
+                accion = nodo.Accion_Padre
+                estado = nodo.Padre.Estado
+                costo = problema.costoAccion(estado, accion)
+                list_states_actions.append(nodo.Accion_Padre.__str__())
+                list_states_actions_cost.append((nodo.Accion_Padre.__str__(), costo))
+                if info:
+                    msg = "<---"+nodo.Accion_Padre.__str__() + \
+                        "[" + str(costo)+"]"+"--"
+                    print(msg)
+            nodo = nodo.Padre
+        if info:
+            print("================================================================================================")
+        list_states.reverse()
+        list_states_actions.reverse()
+        list_states_actions_cost.reverse()
+        
+        return list_states,list_states_actions,list_states_actions_cost

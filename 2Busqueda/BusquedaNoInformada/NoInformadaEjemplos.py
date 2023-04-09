@@ -1,4 +1,4 @@
-from MiBusqueda.NoInformada import *
+from MiBusqueda import *
 
 if __name__ == '__main__':
 
@@ -183,34 +183,34 @@ if __name__ == '__main__':
 #=====================================================================================================
 # busqueda primero por anchura
     # busqueda= BFS(problema=problema_1)
-    # muestraSolucion(busqueda) 
+    # print(busqueda.soluciones(problema=problema_1)[1])
 
 #=====================================================================================================
 # Busqueda con Costo Iniforme
     # busqueda=UCS(problema_1)
-    # muestraSolucionCosto(problema_1,busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
 
 #=====================================================================================================
 # Busqueda Primero en Profundidad
     # busqueda = DFS(problema=problema_1)
-    # muestraSolucion(busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[1])
     
 #=====================================================================================================
 # Busqueda Primero en Profundidad Recursiva
     # busqueda= DFS_R(problema=problema_1)
-    # muestraSolucion(busqueda) 
+    # print(busqueda.soluciones(problema=problema_1)[1])
     
 #=====================================================================================================
 # Busqueda Primero en Profundidad Limitada Recursiva
     # limite con 7 (solucion optima) y 10 cambia el recorrido
     # busqueda = LDFS_R(problema=problema_1,limite=10) 
-    # muestraSolucion(busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
     
 #=====================================================================================================
 # Busqueda Primero en Profundidad Limitada Iterativa
     # Va nivel por nivel buscando la solucion optima, al encontrarla se detiene y regresa la solucion.
     # busqueda = LDFS_I(problema=problema_1,limite=10) 
-    # muestraSolucion(busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
     
 #=====================================================================================================
 # Busqueda en Profundidad de Costo Iterativo
@@ -220,27 +220,28 @@ if __name__ == '__main__':
     
     
     # busqueda = ICS(problema=problema_1,limite=500) # limite minimo 500
-    # muestraSolucionCosto(problema_1,busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
     
     # busqueda = ICS(problema=problema_1,limite=1000,intervalo=10)
-    # muestraSolucionCosto(problema_1, busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
     
     # busqueda = ICS(problema=problema_1, limite=1000, intervalo=100)
-    # muestraSolucionCosto(problema_1, busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
     
     # busqueda = ICS(problema=problema_2, limite=1000, intervalo=10)
-    # muestraSolucionCosto(problema_2, busqueda)
+    # print(busqueda.soluciones(problema=problema_1)[2])
 #=====================================================================================================
 # Busqueda Bidireccional
     # Condiciones: 
     # 1 Se debe de conocer el origen y el destino.
     # 2 No se pueden tener 2 o mas objetivos.
 
-    # solucion = BS(problema=problema_1)
-    # muestraSolucionBS(solucion)
+    solucion = BS(problema=problema_1)
+    print(solucion)
     
     solucion = BS(problema=problema_2)
-    muestraSolucionBS(solucion)
+    print(solucion)
+
 
 
 #=====================================================================================================

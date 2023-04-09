@@ -28,4 +28,9 @@ if __name__ == '__main__':
     problema_1 = Problema(estado_inicial=S1, estados_objetivos=[S3], espacio_estados=Espacio_Estados)
     muestraSolucionCosto(problema_1,LDFS_I(problema=problema_1,limite=2))
 
-    
+    problema_1 = Problema(estado_inicial=S2, estados_objetivos=[S5], espacio_estados=Espacio_Estados)
+    muestraSolucionCosto(problema_1,LDFS_R(problema=problema_1,limite=4))
+    problema_1 = Problema(estado_inicial=S5, estados_objetivos=[S1], espacio_estados=Espacio_Estados)
+    muestraSolucionCosto(problema_1,LDFS_R(problema=problema_1,limite=4))
+    problema_1 = Problema(estado_inicial=S1, estados_objetivos=[S3], espacio_estados=Espacio_Estados)
+    muestraSolucionCosto(problema_1,LDFS_R(problema=problema_1,limite=4))
