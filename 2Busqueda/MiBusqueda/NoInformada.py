@@ -40,7 +40,7 @@ def BFS(problema: Problema,info:bool=False):  # Listo
     # la frontera almacena nodos
     frontera=deque([])
     frontera.appendleft(raiz)  # se inserta por la izquierda
-    
+    ruta=[]
     # explorados almacena estados
     explorados=set() # un set tiene elementos unicos sin repetirse
     if info:
@@ -55,6 +55,7 @@ def BFS(problema: Problema,info:bool=False):  # Listo
            return None
         nodo = frontera.pop() # se quita y se devuelve el elemento de la derecha
         explorados.add(nodo.Estado)
+        ruta.append(nodo)
         if info:
             print("Pop:", nodo, end="-->")
         if not nodo.Acciones:
@@ -73,7 +74,7 @@ def BFS(problema: Problema,info:bool=False):  # Listo
                     if info:
                         print("\n=====================================================",end='')
                         print("\nSe encontro el objetivo:", hijo)
-                    return hijo
+                    return hijo,ruta
                 
                 frontera.appendleft(hijo) # se inserta por la izquierda
         if info:
@@ -87,6 +88,7 @@ def UCS(problema: Problema, info: bool = False):  # Listo
 
     # explorados almacena estados
     explorados = set()  # un set tiene elementos unicos sin repetirse
+    ruta=[]
     if info:
         print("=======================UCS===========================")
     while True:
@@ -101,12 +103,13 @@ def UCS(problema: Problema, info: bool = False):  # Listo
                 print("Frontera vacia, no se encontro el objetivo")
                 print("=====================================================")
             return None
-        nodo = frontera.pop(0)  
+        nodo = frontera.pop(0)
+        ruta.append(nodo)
         if problema.testObjetivo(nodo.Estado):
             if info:
                 print("Se encontro el objetivo:", nodo)
                 print("=====================================================")
-            return nodo
+            return nodo,ruta
         explorados.add(nodo.Estado)
         if info:
             print("Pop:", nodo)
@@ -142,7 +145,7 @@ def DFS(problema: Problema, info: bool = False):  # Listo
     # la frontera almacena nodos
     frontera = []
     frontera.append(raiz)
-
+    ruta=[]
     # explorados almacena estados
     explorados = set()  # un set tiene elementos unicos sin repetirse
     if info:
@@ -158,6 +161,7 @@ def DFS(problema: Problema, info: bool = False):  # Listo
            return None
         nodo = frontera.pop()
         explorados.add(nodo.Estado)
+        ruta.append(nodo)
         if info:
             print("Pop:", nodo, end="-->")
         if not nodo.Acciones:
@@ -177,7 +181,7 @@ def DFS(problema: Problema, info: bool = False):  # Listo
                     if info:
                         print("\n=====================================================",end='')
                         print("\nSe encontro el objetivo:", hijo)
-                    return hijo
+                    return hijo,ruta
 
                 frontera.append(hijo)
         if info:

@@ -4,9 +4,12 @@ import numpy as np
 
 class Laberinto(MutableMapping):
     
-    def __init__(self,laberinto_txt:str) -> None:
+    def __init__(self,laberinto_txt:str,orden_acciones:list) -> None:
         super().__init__()
+        self.Orden_Acciones=orden_acciones
         
+        if not self.Orden_Acciones.__len__()==4:
+            return
         # Definiendo las acciones validas en el laberinto
         self.L = Accion("L")
         self.R = Accion("R")
@@ -56,6 +59,7 @@ class Laberinto(MutableMapping):
         #     print('  '.join(map(str,line)))
         
         # Mostrar el contenido del diccionario
+        
         # for estado in self.EspacioEstados.keys():
         #     print(estado, end=":")
         #     try:
@@ -65,31 +69,30 @@ class Laberinto(MutableMapping):
                 
     # Dependiendo del orden de los if sera la prioridad de las acciones
     def __acciones(self,f,c):
-        lista_aux=[]
         dicc_aux={}
         
         # DOWN (abajo)
         if f+1 < self.Filas and self.Matriz[f+1][c] == 1:
-            lista_aux.append(self.D)
             dicc_aux[self.D]= self.MatrizEstado[f+1][c]
             
         # LEFT (Izquierda)
         if c-1 >= 0 and self.Matriz[f][c-1] == 1:
-            lista_aux.append(self.L)
             dicc_aux[self.L] = self.MatrizEstado[f][c-1]
             
         # RIGHT (Derecha)
         if c+1 < self.Columnas and self.Matriz[f][c+1] == 1:
-            lista_aux.append(self.R)
             dicc_aux[self.R] = self.MatrizEstado[f][c+1]
             
         # UP (ARRIBA)
         if  f-1 >= 0        and self.Matriz[f-1][c] == 1:
-            lista_aux.append(self.U)
             dicc_aux[self.U]= self.MatrizEstado[f-1][c]
         
-        return lista_aux,dicc_aux
+        lista_keys=list(dicc_aux.keys())
+        lista_keys.sort(key= lambda elem: self.Orden_Acciones.index(elem.__str__()))
+        dicc_order={key:dicc_aux[key] for key in lista_keys}
         
+        return lista_keys,dicc_order
+    
     def __str__(self) -> str:
         return str(self.Matriz.shape)+"\n"+self.Matriz.__str__()+"\n"
     

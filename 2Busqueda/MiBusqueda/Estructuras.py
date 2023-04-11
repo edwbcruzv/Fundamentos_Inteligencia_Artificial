@@ -7,7 +7,7 @@ class Accion:
     """
     def __init__(self, nombre:str) -> None:
         self.__Nombre = nombre
-        
+    
     @property
     def Nombre(self)->str:
         return self.__Nombre
@@ -153,7 +153,7 @@ class Nodo:
         self.Padre=padre
         self.Hijos = []
         self.Costo=0
-
+    
 
     def expandir(self, problema:Problema)->list:
         # limpia de la variable
