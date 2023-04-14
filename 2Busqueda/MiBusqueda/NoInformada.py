@@ -30,7 +30,6 @@ def __nodoHijo(problema: Problema, padre: Nodo, accion: Accion) -> Nodo:  # List
     padre.addNodo(hijo)
     return hijo
 
-
 # Busqueda primero por anchura
 def BFS(problema: Problema,info:bool=False):  # Listo
     raiz=__nodoRaiz(problema)
@@ -71,6 +70,7 @@ def BFS(problema: Problema,info:bool=False):  # Listo
                 if info:
                     print(hijo,end="|")
                 if problema.testObjetivo(hijo.Estado):
+                    ruta.append(hijo)
                     if info:
                         print("\n=====================================================",end='')
                         print("\nSe encontro el objetivo:", hijo)
@@ -178,6 +178,7 @@ def DFS(problema: Problema, info: bool = False):  # Listo
                 if info:
                     print(hijo, end="|")
                 if problema.testObjetivo(hijo.Estado):
+                    ruta.append(hijo)
                     if info:
                         print("\n=====================================================",end='')
                         print("\nSe encontro el objetivo:", hijo)
