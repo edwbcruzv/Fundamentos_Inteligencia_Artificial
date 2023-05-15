@@ -1,5 +1,5 @@
-from tkinter import BooleanVar, Checkbutton, IntVar, LabelFrame, Radiobutton, Tk, Label, Frame, Entry, Button, Scale
-from tkinter.ttk import Combobox
+from tkinter import CENTER, END, BooleanVar, Checkbutton, IntVar, LabelFrame, Radiobutton, Tk, Label, Frame, Entry, Button, Scale
+from tkinter.ttk import Combobox, Scrollbar, Treeview
 from Constantes import *
 
 
@@ -17,7 +17,7 @@ class LFMenu(LabelFrame):
         s.pack()
 
     def __controles(s, POS_X: int, POS_Y: int):
-        ANCHO = 100
+        ANCHO = 110
         ALTURA = 30
         s.Rbtn_Laberintos=Radiobutton(s,text="Laberintos",variable=s.Opcion_Tablero,value=0)
         s.Rbtn_Laberintos.place(x=POS_X, y=POS_Y, width=ANCHO, height=ALTURA)
@@ -25,9 +25,12 @@ class LFMenu(LabelFrame):
         s.Rbtn_Terrenos=Radiobutton(s,text="Terrenos",variable=s.Opcion_Tablero,value=1)
         s.Rbtn_Terrenos.place(x=POS_X+ANCHO+10, y=POS_Y, width=ANCHO, height=ALTURA)
         
+        s.Rbtn_Proyecto1=Radiobutton(s,text="Proyecto 1",variable=s.Opcion_Tablero,value=2)
+        s.Rbtn_Proyecto1.place(x=POS_X+(ANCHO*2)+20, y=POS_Y, width=ANCHO, height=ALTURA)
+        
         s.Cbtn_Libre = Checkbutton(
             s, text="Modo Libre", variable=s.Opcion_Libre, onvalue=1, offvalue=0)
-        s.Cbtn_Libre.place(x=POS_X+(ANCHO*5)+10, y=POS_Y, width=ANCHO+20, height=ALTURA)
+        s.Cbtn_Libre.place(x=POS_X+(ANCHO*5), y=POS_Y, width=ANCHO+10, height=ALTURA)
         
 
     def active(s):
@@ -44,7 +47,7 @@ class LFPrincipal(LabelFrame):
     
     def __init__(s, master,modo_info=False):
         s.Width = 690
-        s.Height = 200
+        s.Height = 240
         s.Bool_Info=modo_info
         # Constructor de Frame()
         super().__init__(master,text="Principal", width=s.Width, height=s.Height, background=COLOR_7)
@@ -375,42 +378,219 @@ class LFArbol(LabelFrame):
         super().__init__(master,text="Arbol", width=s.Width, height=s.Height, background=COLOR_9)
         
         s.pack()
+        
+class LFProyecto1(LabelFrame):
+    
+    def __init__(s, master):
+        s.Width = 690
+        s.Height = 730
+        # Constructor de Frame()
+        super().__init__(master,text="Proyecto1", width=s.Width, height=s.Height, background=COLOR_10)
+        
+        s.__entradaOrigenesDestinos(10,10)
+        s.__tabla1(10,230)
+        s.__tabla2(10,320)
+        s.__tabla3(10,440)
+        s.pack()
+        
+    def __entradaOrigenesDestinos(s,POS_X:int,POS_Y:int):
+        ANCHO = 70
+        ALTURA = 30
+        
+        s.lbl1 = Label(s, text="Humano")
+        s.lbl1.place(x=POS_X, y=ALTURA+POS_Y, width=ANCHO, height=ALTURA)
+        s.lbl2 = Label(s, text="Octopus")
+        s.lbl2.place(x=POS_X, y=(ALTURA*2)+POS_Y, width=ANCHO, height=ALTURA)
+        s.lbl3 = Label(s, text="Portal")
+        s.lbl3.place(x=POS_X, y=(ALTURA*3)+POS_Y, width=ANCHO, height=ALTURA)
+        s.lbl4 = Label(s, text="Templo")
+        s.lbl4.place(x=POS_X, y=(ALTURA*4)+POS_Y, width=ANCHO, height=ALTURA)
+        s.lbl5 = Label(s, text="Llave")
+        s.lbl5.place(x=POS_X, y=(ALTURA*5)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.lbl3 = Label(s, text="Fila")
+        s.lbl3.place(x=ANCHO+POS_X, y=POS_Y, width=ANCHO, height=ALTURA)
+        s.lbl4 = Label(s, text="Columna")
+        s.lbl4.place(x=(ANCHO*2)+POS_X, y=POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Fila_Humano = Combobox(s,state="readonly")
+        s.Fila_Humano.place(x=ANCHO+POS_X, y=ALTURA+POS_Y, width=ANCHO, height=ALTURA)
+
+        s.Fila_Octopus = Combobox(s, state="readonly")
+        s.Fila_Octopus.place(x=ANCHO+POS_X, y=(ALTURA*2)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Fila_Portal = Combobox(s, state="readonly")
+        s.Fila_Portal.place(x=ANCHO+POS_X, y=(ALTURA*3)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Fila_Templo = Combobox(s, state="readonly")
+        s.Fila_Templo.place(x=ANCHO+POS_X, y=(ALTURA*4)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Fila_Llave = Combobox(s, state="readonly")
+        s.Fila_Llave.place(x=ANCHO+POS_X, y=(ALTURA*5)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Columna_Humano = Combobox(s, state="readonly")
+        s.Columna_Humano.place(x=(ANCHO*2)+POS_X, y=ALTURA+POS_Y, width=ANCHO, height=ALTURA)
+
+        s.Columna_Octopus = Combobox(s, state="readonly")
+        s.Columna_Octopus.place(x=(ANCHO*2)+POS_X, y=(ALTURA*2)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Columna_Portal = Combobox(s, state="readonly")
+        s.Columna_Portal.place(x=(ANCHO*2)+POS_X, y=(ALTURA*3)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Columna_Templo = Combobox(s, state="readonly")
+        s.Columna_Templo.place(x=(ANCHO*2)+POS_X, y=(ALTURA*4)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        s.Columna_Llave = Combobox(s, state="readonly")
+        s.Columna_Llave.place(x=(ANCHO*2)+POS_X, y=(ALTURA*5)+POS_Y, width=ANCHO, height=ALTURA)
+        
+        
+        s.Btn_Cargar = Button(s, text="Cargar")
+        s.Btn_Cargar.place(x=POS_X, y=5+(ALTURA*6)+POS_Y, width=ANCHO*3, height=ALTURA)
+        
+    
+    def __tabla1(s,POS_X:int,POS_Y:int):
+        ANCHO = 80
+        FILAS = 2
+        
+        ANCHO_TABLA=650
+        
+        s.tv1=Treeview(s,columns=(0,1,2,3,4,5,6),height=FILAS)
+        s.tv1.heading(0,text="Portal",anchor=CENTER)
+        s.tv1.heading(1,text="Llave",anchor=CENTER)
+        s.tv1.heading(2,text="Templo",anchor=CENTER)
+        s.tv1.heading(3,text="Llave-Templo",anchor=CENTER)
+        s.tv1.heading(4,text="Templo-Llave",anchor=CENTER)
+        s.tv1.heading(5,text="Llave-Portal",anchor=CENTER)
+        s.tv1.heading(6,text="Templo-Portal",anchor=CENTER)
+        
+        s.tv1.column("#0",width=ANCHO)
+        s.tv1.column(0,width=ANCHO)
+        s.tv1.column(1,width=ANCHO)
+        s.tv1.column(2,width=ANCHO)
+        s.tv1.column(3,width=ANCHO*2)
+        s.tv1.column(4,width=ANCHO*2)
+        s.tv1.column(5,width=ANCHO*2)
+        s.tv1.column(6,width=ANCHO*2)
+        
+        
+        scrbr=Scrollbar(s,orient="horizontal",command=s.tv1.xview)
+        scrbr.place(x=POS_X, y=POS_Y+70,width=ANCHO_TABLA)
+        
+        s.tv1.config(xscrollcommand=scrbr.set)
+        
+        s.tv1.insert("",END,text="Humano",values=("0","0","0","0","0","0","0"))
+        s.tv1.insert("",END,text="Octopus",values=("0","0","0","0","0","0","0"))
+        s.tv1.place(x=POS_X, y=POS_Y,width=ANCHO_TABLA, height=70)
+        
+        
+    def __tabla2(s,POS_X:int,POS_Y:int):
+        ANCHO = 80
+        FILAS = 10
+        
+        ANCHO_TABLA=650
+        
+        s.tv2=Treeview(s,columns=(0,1),height=FILAS)
+        s.tv2.heading(0,text="Ruta",anchor=CENTER)
+        s.tv2.heading(1,text="Costo Total",anchor=CENTER)
+        
+        s.tv2.column("#0",width=ANCHO)
+        s.tv2.column(0,width=ANCHO)
+        s.tv2.column(1,width=ANCHO)
+        
+        
+        scrbr=Scrollbar(s,orient="vertical",command=s.tv2.yview)
+        scrbr.place(x=POS_X+ANCHO_TABLA, y=POS_Y,height=110)
+        
+        s.tv2.config(yscrollcommand=scrbr.set)
+        
+        s.tv2.insert("",END,text="Humano",values=("0","0"))
+        s.tv2.insert("",END,text="Humano",values=("0","0"))
+        s.tv2.insert("",END,text="Humano",values=("0","0"))
+        s.tv2.insert("",END,text="Humano",values=("0","0"))
+        s.tv2.insert("",END,text="Humano",values=("0","0"))
+        s.tv2.insert("",END,text="Octopus",values=("0","0"))
+        s.tv2.insert("",END,text="Octopus",values=("0","0"))
+        s.tv2.insert("",END,text="Octopus",values=("0","0"))
+        s.tv2.insert("",END,text="Octopus",values=("0","0"))
+        s.tv2.insert("",END,text="Octopus",values=("0","0"))
+        
+        s.tv2.place(x=POS_X, y=POS_Y,width=ANCHO_TABLA, height=110)
+        
+    def __tabla3(s,POS_X:int,POS_Y:int):
+        ANCHO = 80
+        FILAS = 3
+        
+        ANCHO_TABLA=650
+        
+        s.tv3=Treeview(s,columns=(0,1),height=FILAS)
+        s.tv3.heading(0,text="Ruta",anchor=CENTER)
+        s.tv3.heading(1,text="Costo",anchor=CENTER)
+        
+        s.tv3.column("#0",width=ANCHO)
+        s.tv3.column(0,width=ANCHO)
+        s.tv3.column(1,width=ANCHO)
+        
+        
+        s.tv3.insert("",END,text="Humano",values=("0","0"))
+        s.tv3.insert("",END,text="Octopus",values=("0","0"))
+        s.tv3.insert("",END,text="Total",values=("0","0"))
+        s.tv3.place(x=POS_X, y=POS_Y,width=ANCHO_TABLA, height=100)
+        
 class Controls(Frame):
 
     def __init__(s, master):
         # Constructor de Frame()
-        super().__init__(master, width=710, height=650, background=COLOR_6)
+        super().__init__(master, width=710, height=850, background=COLOR_6)
 
         # empaquetando elementos dentro de su ventana contenedora
         s.Menu = LFMenu(s)
         s.Menu.place(x=10, y=10)
-        # s.Menu.Rbtn_Laberintos.config(command=s.updateWidgets)
-        # s.Menu.Rbtn_Terrenos.config(command=s.updateWidgets)
+        s.Menu.Rbtn_Laberintos.config(command=s.updateWidgets)
+        s.Menu.Rbtn_Terrenos.config(command=s.updateWidgets)
+        s.Menu.Rbtn_Proyecto1.config(command=s.updateWidgets)
         s.updateWidgets()
         
         s.pack()
         
     def updateWidgets(s):
-        s.Principal=None
+        try:
+            s.Principal.destroy()
+            s.Manual.destroy()
+            s.Auto.destroy()
+        except:
+            print("No hay witgets")
         
         if s.Menu.Opcion_Tablero.get()==0:
             s.Principal = LFPrincipal(s)
             s.Principal.place(x=10, y=100)
+            
+            s.Auto=LFAutomatico(s)
+            s.Auto.place(x=10,y=350)
+            s.Auto.disabled()
+            
+            s.Manual=LFManual(s)
+            s.Manual.place(x=350,y=350)
+            s.Manual.disabled()
+            
         elif s.Menu.Opcion_Tablero.get() == 1:
             s.Principal = LFPrincipal(s, True)
             s.Principal.place(x=10, y=100)
+            
+            s.Auto=LFAutomatico(s)
+            s.Auto.place(x=10,y=350)
+            s.Auto.disabled()
+            
+            s.Manual=LFManual(s)
+            s.Manual.place(x=350,y=350)
+            s.Manual.disabled()
+            
+        elif s.Menu.Opcion_Tablero.get() == 2:
+            s.Principal = LFProyecto1(s)
+            s.Principal.place(x=10, y=100)
+            
         
-        s.Auto=LFAutomatico(s)
-        s.Auto.place(x=10,y=310)
-        s.Auto.disabled()
-        
-        s.Manual=LFManual(s)
-        s.Manual.place(x=350,y=310)
-        s.Manual.disabled()
-        
-        s.Arbol=LFArbol(s)
-        s.Arbol.place(x=10,y=460)
-        # s.pack()
+        # s.Arbol=LFArbol(s)
+        # s.Arbol.place(x=10,y=500)
         
     #     s.__pruebas()
     

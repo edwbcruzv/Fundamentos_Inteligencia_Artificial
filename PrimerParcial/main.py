@@ -253,5 +253,5 @@ class App(Frame):
 if __name__ == '__main__':
     root = Tk()
     root.title("Ventana Principal")
-    app = App(root, 1500, 800)
+    app = App(root, 1600, 900)
     app.mainloop()

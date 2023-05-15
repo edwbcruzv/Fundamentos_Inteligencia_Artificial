@@ -48,7 +48,7 @@ class Agente:
         try:
             if not op_info:
                 if op_algorit==0:
-                    Arbol_Solucion,self.Trayectoria = BFS(problema=self.Problema)
+                    Arbol_Solucion,self.Trayectoria = BFS(problema=self.Problema,info=True)
                 elif op_algorit==1:
                     Arbol_Solucion, self.Trayectoria = DFS(problema=self.Problema)
                 elif op_algorit==2:
@@ -67,7 +67,7 @@ class Agente:
         
         if Arbol_Solucion:
             self.Lista_Camino = Arbol_Solucion.soluciones(problema=self.Problema)[0]
-            # print([nodo.__str__() for nodo in Trayectoria])
+            # print([nodo.__str__() for nodo in self.Lista_Camino])
         else:
             return None
         
@@ -89,6 +89,7 @@ class Agente:
                     self.Trayectoria_Completa.append(nodo.Estado)
                     break
         # print(self.Lista_Camino)
+        print([nodo.__str__() for nodo in self.Trayectoria])
         # print([elem.__str__() for elem in self.Trayectoria_Completa])
             
         return True
