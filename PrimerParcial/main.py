@@ -18,43 +18,66 @@ class App(Frame):
         
         s.__changeMenu()
         s.__updateWidgets()
-        
+    
+    # se  encargara de cargar los radiobuton para escojer la practica a correr
     def __changeMenu(s):
         s.CTL=Controls(s)
         s.CTL.place(x=10, y=10)
+        # cada que se lececcione un radiobutton se actualizaran los widgets dependiendo de la opcion a escojer
         s.CTL.Menu.Rbtn_Laberintos.config(command=s.__updateWidgets)
         s.CTL.Menu.Rbtn_Terrenos.config(command=s.__updateWidgets)
+        s.CTL.Menu.Rbtn_Proyecto1.config(command=s.__updateWidgets)
         s.pack()
         
         
     def __updateWidgets(s):
+        
+        # se conectan todos los botones con las funcionalidades de esta clase
         s.CTL.updateWidgets()
         
-        s.CTL.Principal.Btn_Cargar.config(command=s.__Cargar)
-        
-        s.CTL.Auto.Btn_Iniciar.config(command=s.__Iniciar)
-        s.CTL.Auto.Btn_Pausar.config(command=s.__Pausar)
-        s.CTL.Auto.Btn_Cancelar.config(command=s.__Cancelar)
-        s.CTL.Manual.Btn_Cancelar.config(command=s.__Cancelar)
         # s.CTL.Libre.Btn_L.config(command=s.__L)
         # s.CTL.Libre.Btn_R.config(command=s.__R)
         # s.CTL.Libre.Btn_U.config(command=s.__U)
         # s.CTL.Libre.Btn_D.config(command=s.__D)
-        s.CTL.Manual.Btn_Back.config(command=s.__Back)
-        s.CTL.Manual.Btn_Next.config(command=s.__Next)
-        s.CTL.Manual.Btn_Cancelar.config(command=s.__Cancelar)
         
+        # dependiendo de la opcion se carganar los laberintos o terrenos que esten en dichas carpetas,
+        # los archivos txt se cargran en un combobox, excepto el proyecto
         list_values =[]
         if s.CTL.Menu.Opcion_Tablero.get() == 0 and os.path.exists('Laberintos'):
-            list_values=os.listdir('Laberintos')
-        elif s.CTL.Menu.Opcion_Tablero.get() == 1 and os.path.exists('Terrenos'):
-            list_values = os.listdir('Terrenos')
-        else:
-            return 
+            s.CTL.Principal.Btn_Cargar.config(command=s.__Cargar)
+            s.CTL.Auto.Btn_Iniciar.config(command=s.__Iniciar)
+            s.CTL.Auto.Btn_Pausar.config(command=s.__Pausar)
+            s.CTL.Auto.Btn_Cancelar.config(command=s.__Cancelar)
+            s.CTL.Manual.Btn_Cancelar.config(command=s.__Cancelar)
+            s.CTL.Manual.Btn_Back.config(command=s.__Back)
+            s.CTL.Manual.Btn_Next.config(command=s.__Next)
+            s.CTL.Manual.Btn_Cancelar.config(command=s.__Cancelar)
             
-        s.CTL.Principal.Cbx_Archivos_Txt.config(values=list_values)
-        s.CTL.Principal.Cbx_Archivos_Txt.bind('<<ComboboxSelected>>',s.__changeTablero)
-        s.CTL.Principal.Cbtn_Vista_Agente.config(command=s.__Vista_Agente)
+            list_values=os.listdir('Laberintos')
+            s.CTL.Principal.Cbx_Archivos_Txt.config(values=list_values)
+            s.CTL.Principal.Cbx_Archivos_Txt.bind('<<ComboboxSelected>>',s.__changeTablero)
+            s.CTL.Principal.Cbtn_Vista_Agente.config(command=s.__Vista_Agente)
+            
+        elif s.CTL.Menu.Opcion_Tablero.get() == 1 and os.path.exists('Terrenos'):
+            s.CTL.Principal.Btn_Cargar.config(command=s.__Cargar)
+            s.CTL.Auto.Btn_Iniciar.config(command=s.__Iniciar)
+            s.CTL.Auto.Btn_Pausar.config(command=s.__Pausar)
+            s.CTL.Auto.Btn_Cancelar.config(command=s.__Cancelar)
+            s.CTL.Manual.Btn_Cancelar.config(command=s.__Cancelar)
+            s.CTL.Manual.Btn_Back.config(command=s.__Back)
+            s.CTL.Manual.Btn_Next.config(command=s.__Next)
+            s.CTL.Manual.Btn_Cancelar.config(command=s.__Cancelar)
+            
+            list_values = os.listdir('Terrenos')
+            s.CTL.Principal.Cbx_Archivos_Txt.config(values=list_values)
+            s.CTL.Principal.Cbx_Archivos_Txt.bind('<<ComboboxSelected>>',s.__changeTablero)
+            s.CTL.Principal.Cbtn_Vista_Agente.config(command=s.__Vista_Agente)
+            
+        elif s.CTL.Menu.Opcion_Tablero.get() == 2 and os.path.exists('Proyecto1'):
+            s.__proyecto1()
+        else:
+            return
+        
         s.pack()
         
     def __changeTablero(s,event):
@@ -249,6 +272,140 @@ class App(Frame):
         elif isinstance(elem, Accion):
             s.Tablero_cv.drawAgent(s.agente.F, s.agente.C, True)
         return elem
+    
+    
+    def __proyecto1(s):
+        Humano_Txt = "Proyecto1/Humano.txt"
+        matriz_tablero_humano = np.loadtxt(Humano_Txt, dtype=int)
+        
+        Octopus_Txt = "Proyecto1/Octopus.txt"
+        matriz_tablero_octopus = np.loadtxt(Octopus_Txt, dtype=int)
+        
+        Tablero_cv_humano = Humano2Frame(master=s, matrix_laberinto=matriz_tablero_humano,
+                                        cells_side=matriz_tablero_humano.shape[0], size_px=400)
+        
+        Tablero_cv_octopus = Octopus2Frame(master=s, matrix_laberinto=matriz_tablero_octopus,
+                                        cells_side=matriz_tablero_octopus.shape[0], size_px=400)
+        
+        Tablero_cv_humano.place(x=(s.Width/2)+Tablero_cv_humano.SideCellPX,
+                       y=Tablero_cv_humano.SideCellPX)
+        
+        Tablero_cv_humano.render() ## opaca el laberinto
+        
+        Tablero_cv_octopus.place(x=(s.Width/2)+Tablero_cv_octopus.SideCellPX,
+                       y=Tablero_cv_octopus.SideCellPX+(s.Height/2))
+        
+        Tablero_cv_octopus.render()
+        
+        # al tener las mismas medidas se toma el del humano
+        str_lbl_char = []
+        str_lbl_num = []
+        for n, l in zip(range(15), range(15)):
+            # print(str(n+1)+str(chr(l+65)))
+            str_lbl_char.append(str(chr(l+65)))
+            str_lbl_num.append(str(n+1))
+
+        LX = LY = Tablero_cv_humano.SideCellPX
+        POS_X = (s.Width/2)+LX
+        POS_Y = 0
+        labels_X = []
+        for i, text in zip(range(15), str_lbl_char):
+            labels_X.append(Label(s, text="|-"+text+"-|"))
+            labels_X[i].place(x=POS_X+(LX*i), y=POS_Y, width=LX, height=LY)
+
+        POS_X = (s.Width/2)
+        POS_Y = LY
+        labels_Y = []
+        for i, text in zip(range(15), str_lbl_num):
+            labels_Y.append(Label(s, text="|-"+text+"-|"))
+            labels_Y[i].place(x=POS_X, y=POS_Y+(LY*i), width=LX, height=LY)
+        
+        ##################
+        LX = LY = Tablero_cv_humano.SideCellPX
+        POS_X = (s.Width/2)+LX
+        POS_Y = (s.Height/2)
+        labels_X = []
+        for i, text in zip(range(15), str_lbl_char):
+            labels_X.append(Label(s, text="|-"+text+"-|"))
+            labels_X[i].place(x=POS_X+(LX*i), y=POS_Y, width=LX, height=LY)
+
+        POS_X = (s.Width/2)
+        POS_Y = LY+(s.Height/2)
+        labels_Y = []
+        for i, text in zip(range(15), str_lbl_num):
+            labels_Y.append(Label(s, text="|-"+text+"-|"))
+            labels_Y[i].place(x=POS_X, y=POS_Y+(LY*i), width=LX, height=LY)
+        
+        s.CTL.Proyecto1.Fila_Humano.config(values=str_lbl_num)
+        s.CTL.Proyecto1.Fila_Octopus.config(values=str_lbl_num)
+        s.CTL.Proyecto1.Fila_Portal.config(values=str_lbl_num)
+        s.CTL.Proyecto1.Fila_Templo.config(values=str_lbl_num)
+        s.CTL.Proyecto1.Fila_Llave.config(values=str_lbl_num)
+        s.CTL.Proyecto1.Columna_Humano.config(values=str_lbl_char)
+        s.CTL.Proyecto1.Columna_Octopus.config(values=str_lbl_char)
+        s.CTL.Proyecto1.Columna_Portal.config(values=str_lbl_char)
+        s.CTL.Proyecto1.Columna_Templo.config(values=str_lbl_char)
+        s.CTL.Proyecto1.Columna_Llave.config(values=str_lbl_char)
+        
+        s.CTL.Proyecto1.Btn_Cargar.config(command=s.__CargarProyecto1)
+        ###########################################################
+        
+    def __CargarProyecto1(s):
+        
+        
+        
+        
+        
+        
+        
+        # print(s.CTL.Proyecto1.tv1.selection())
+        
+        # Actualizacion Tabla 1
+        s.CTL.Proyecto1.tv1.delete("I001")
+        s.CTL.Proyecto1.tv1.delete("I002")
+        
+        s.CTL.Proyecto1.tv1.insert("",END,iid="I001",text="Humano",values=("10","10","10","10","10","10","10"))
+        s.CTL.Proyecto1.tv1.insert("",END,iid="I002",text="Octopus",values=("0","0","0","20","0","0","20"))
+        
+        
+        # Actualizacion Tabla 2
+        
+        # print(s.CTL.Proyecto1.tv2.selection())
+               
+        s.CTL.Proyecto1.tv2.delete("I001")
+        s.CTL.Proyecto1.tv2.delete("I002")
+        s.CTL.Proyecto1.tv2.delete("I003")
+        s.CTL.Proyecto1.tv2.delete("I004")
+        s.CTL.Proyecto1.tv2.delete("I005")
+        s.CTL.Proyecto1.tv2.delete("I006")
+        s.CTL.Proyecto1.tv2.delete("I007")
+        s.CTL.Proyecto1.tv2.delete("I008")
+        s.CTL.Proyecto1.tv2.delete("I009")
+        s.CTL.Proyecto1.tv2.delete("I00A")
+        
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I001",text="Humano",values=("7","7"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I002",text="Humano",values=("7","7"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I003",text="Humano",values=("7","7"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I004",text="Humano",values=("7","7"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I005",text="Humano",values=("7","7"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I006",text="Octopus",values=("8","8"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I007",text="Octopus",values=("8","8"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I008",text="Octopus",values=("8","8"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I009",text="Octopus",values=("8","8"))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I00A",text="Octopus",values=("8","8"))
+        
+        
+        
+        # Actualizacion Tabla 3
+        
+        s.CTL.Proyecto1.tv3.delete("I001")
+        s.CTL.Proyecto1.tv3.delete("I002")
+        s.CTL.Proyecto1.tv3.delete("I003")
+        
+        s.CTL.Proyecto1.tv3.insert("",END,iid="I001",text="Humano",values=("1","2"))
+        s.CTL.Proyecto1.tv3.insert("",END,iid="I002",text="Octopus",values=("0","3"))
+        s.CTL.Proyecto1.tv3.insert("",END,iid="I003",text="Total",values=("4","0"))
+        s.pack()
 
 if __name__ == '__main__':
     root = Tk()

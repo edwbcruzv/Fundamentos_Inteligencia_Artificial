@@ -147,7 +147,23 @@ class HumanoFrame(TableroFrame):
         else:
             self.drawCellCord(f, c, BLACK, BLACK)
 
-
+class Humano2Frame(TableroFrame):
+    
+    def __init__(self, master: Tk, matrix_laberinto, cells_side: int, size_px: int) -> None:
+        super().__init__(master, matrix_laberinto, cells_side, size_px)
+    
+    def paintCellCord(self, f: int, c: int):
+        if self.Matrix_Laberinto[f][c] == 1:
+            self.drawCellCord(f, c, BISQUE, BLACK)
+        elif self.Matrix_Laberinto[f][c] == 2:
+            self.drawCellCord(f, c, SKYBLUE, BLACK)
+        elif self.Matrix_Laberinto[f][c] == 3:
+            self.drawCellCord(f, c, ORANGE, BLACK)
+        elif self.Matrix_Laberinto[f][c] == 4:
+            self.drawCellCord(f, c, LIMEGREEN, BLACK)
+        else:
+            self.drawCellCord(f, c, BLACK, BLACK)
+            
 class MonkeyFrame(TableroFrame):
 
     def __init__(self, master: Tk, matrix_laberinto, cells_side: int, size_px: int) -> None:
@@ -183,6 +199,20 @@ class OctopusFrame(TableroFrame):
         else:
             self.drawCellCord(f, c, BLACK, BLACK)
 
+class Octopus2Frame(TableroFrame):
+
+    def __init__(self, master: Tk, matrix_laberinto, cells_side: int, size_px: int) -> None:
+        super().__init__(master, matrix_laberinto, cells_side, size_px)
+
+    def paintCellCord(self, f: int, c: int):
+        if self.Matrix_Laberinto[f][c] == 4:
+            self.drawCellCord(f, c, BISQUE, BLACK)
+        elif self.Matrix_Laberinto[f][c] == 1:
+            self.drawCellCord(f, c, SKYBLUE, BLACK)
+        elif self.Matrix_Laberinto[f][c] == 3:
+            self.drawCellCord(f, c, LIMEGREEN, BLACK)
+        else:
+            self.drawCellCord(f, c, BLACK, BLACK)
 
 class SasquatchFrame(TableroFrame):
 

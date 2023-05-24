@@ -545,9 +545,12 @@ class Controls(Frame):
         # empaquetando elementos dentro de su ventana contenedora
         s.Menu = LFMenu(s)
         s.Menu.place(x=10, y=10)
-        s.Menu.Rbtn_Laberintos.config(command=s.updateWidgets)
-        s.Menu.Rbtn_Terrenos.config(command=s.updateWidgets)
-        s.Menu.Rbtn_Proyecto1.config(command=s.updateWidgets)
+        # Si se van hacer pruebas desde el main de este archivo,
+        # de debera descomenar esto para darle funcionalidad a los botones
+        # s.Menu.Rbtn_Laberintos.config(command=s.updateWidgets)
+        # s.Menu.Rbtn_Terrenos.config(command=s.updateWidgets)
+        # s.Menu.Rbtn_Proyecto1.config(command=s.updateWidgets)
+        
         s.updateWidgets()
         
         s.pack()
@@ -557,6 +560,7 @@ class Controls(Frame):
             s.Principal.destroy()
             s.Manual.destroy()
             s.Auto.destroy()
+            s.Proyecto1.destroy()
         except:
             print("No hay witgets")
         
@@ -585,8 +589,8 @@ class Controls(Frame):
             s.Manual.disabled()
             
         elif s.Menu.Opcion_Tablero.get() == 2:
-            s.Principal = LFProyecto1(s)
-            s.Principal.place(x=10, y=100)
+            s.Proyecto1 = LFProyecto1(s)
+            s.Proyecto1.place(x=10, y=100)
             
         
         # s.Arbol=LFArbol(s)
@@ -630,4 +634,6 @@ if __name__ == '__main__':
     # app=LFDireccion(root)
     # app.mainloop()
     
-    
+
+
+
