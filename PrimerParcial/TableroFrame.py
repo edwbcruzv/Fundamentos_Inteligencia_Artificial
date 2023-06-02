@@ -126,7 +126,7 @@ class TableroFrame(Frame):
         self.paintCellCord(f, c)
         self.canva.create_line(c*self.SideCellPX,f*self.SideCellPX,(c*self.SideCellPX)+self.SideCellPX,(f*self.SideCellPX)+self.SideCellPX)
         self.canva.create_line(c*self.SideCellPX,(f*self.SideCellPX)+self.SideCellPX,(c*self.SideCellPX)+self.SideCellPX,f*self.SideCellPX)
-            
+        
         self.canva.pack() # no quitar esta linea
 
 
@@ -146,6 +146,8 @@ class HumanoFrame(TableroFrame):
             self.drawCellCord(f, c, GREEN, BLACK)
         else:
             self.drawCellCord(f, c, BLACK, BLACK)
+            
+    
 
 class Humano2Frame(TableroFrame):
     
@@ -163,6 +165,22 @@ class Humano2Frame(TableroFrame):
             self.drawCellCord(f, c, LIMEGREEN, BLACK)
         else:
             self.drawCellCord(f, c, BLACK, BLACK)
+            
+    def paintCellOrigen(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="H", font=("Arial", 24), fill="black")
+    
+    def paintCellTemplo(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="T", font=("Arial", 24), fill="black")
+
+    def paintCellPortal(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="P", font=("Arial", 24), fill="black")
+    
+    def paintCellKey(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="K", font=("Arial", 24), fill="black")
             
 class MonkeyFrame(TableroFrame):
 
@@ -213,7 +231,24 @@ class Octopus2Frame(TableroFrame):
             self.drawCellCord(f, c, LIMEGREEN, BLACK)
         else:
             self.drawCellCord(f, c, BLACK, BLACK)
+            
+    def paintCellOrigen(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="O", font=("Arial", 24), fill="black")
+    
+    def paintCellTemplo(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="T", font=("Arial", 24), fill="black")
 
+    def paintCellPortal(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="P", font=("Arial", 24), fill="black")
+    
+    def paintCellKey(self, f: int, c: int):
+        
+        self.canva.create_text(c*self.SideCellPX+(self.SideCellPX/2),f*self.SideCellPX+(self.SideCellPX/2), text="K", font=("Arial", 24), fill="black")
+        
+        
 class SasquatchFrame(TableroFrame):
 
     def __init__(self, master: Tk, matrix_laberinto, cells_side: int, size_px: int) -> None:

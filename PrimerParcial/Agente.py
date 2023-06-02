@@ -14,6 +14,7 @@ class Agente:
     
     def __init__(self,laberinto:Laberinto,origen:tuple,destino:tuple,color):
         self.Index_Trayectoria = None
+        self.Costo_Total=0
         self.Index_Nodo = None
         self.__Color=color
         self.Laberinto = laberinto
@@ -65,6 +66,7 @@ class Agente:
         self.Index_Nodo = 0
         self.Index_Trayectoria = 0
         
+        self.Costo_Total=Arbol_Solucion.Costo
         if Arbol_Solucion:
             self.Lista_Camino = Arbol_Solucion.soluciones(problema=self.Problema)[0]
             # print([nodo.__str__() for nodo in self.Lista_Camino])
@@ -89,7 +91,7 @@ class Agente:
                     self.Trayectoria_Completa.append(nodo.Estado)
                     break
         # print(self.Lista_Camino)
-        print([nodo.__str__() for nodo in self.Trayectoria])
+        # print([nodo.__str__() for nodo in self.Trayectoria])
         # print([elem.__str__() for elem in self.Trayectoria_Completa])
             
         return True

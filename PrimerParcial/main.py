@@ -81,6 +81,7 @@ class App(Frame):
         s.pack()
         
     def __changeTablero(s,event):
+        
         # se define el tamaño estatico del canvas en pixeles y la posicion
         if s.CTL.Menu.Opcion_Tablero.get() == 0:
             s.Archivo_Txt = "Laberintos/" + s.CTL.Principal.Cbx_Archivos_Txt.get()
@@ -281,21 +282,21 @@ class App(Frame):
         Octopus_Txt = "Proyecto1/Octopus.txt"
         matriz_tablero_octopus = np.loadtxt(Octopus_Txt, dtype=int)
         
-        Tablero_cv_humano = Humano2Frame(master=s, matrix_laberinto=matriz_tablero_humano,
+        s.Tablero_cv_humano = Humano2Frame(master=s, matrix_laberinto=matriz_tablero_humano,
                                         cells_side=matriz_tablero_humano.shape[0], size_px=400)
         
-        Tablero_cv_octopus = Octopus2Frame(master=s, matrix_laberinto=matriz_tablero_octopus,
+        s.Tablero_cv_octopus = Octopus2Frame(master=s, matrix_laberinto=matriz_tablero_octopus,
                                         cells_side=matriz_tablero_octopus.shape[0], size_px=400)
         
-        Tablero_cv_humano.place(x=(s.Width/2)+Tablero_cv_humano.SideCellPX,
-                       y=Tablero_cv_humano.SideCellPX)
+        s.Tablero_cv_humano.place(x=(s.Width/2)+s.Tablero_cv_humano.SideCellPX,
+                       y=s.Tablero_cv_humano.SideCellPX)
         
-        Tablero_cv_humano.render() ## opaca el laberinto
+        s.Tablero_cv_humano.render() ## opaca el laberinto
         
-        Tablero_cv_octopus.place(x=(s.Width/2)+Tablero_cv_octopus.SideCellPX,
-                       y=Tablero_cv_octopus.SideCellPX+(s.Height/2))
+        s.Tablero_cv_octopus.place(x=(s.Width/2)+s.Tablero_cv_octopus.SideCellPX,
+                       y=s.Tablero_cv_octopus.SideCellPX+(s.Height/2))
         
-        Tablero_cv_octopus.render()
+        s.Tablero_cv_octopus.render()
         
         # al tener las mismas medidas se toma el del humano
         str_lbl_char = []
@@ -305,7 +306,7 @@ class App(Frame):
             str_lbl_char.append(str(chr(l+65)))
             str_lbl_num.append(str(n+1))
 
-        LX = LY = Tablero_cv_humano.SideCellPX
+        LX = LY = s.Tablero_cv_humano.SideCellPX
         POS_X = (s.Width/2)+LX
         POS_Y = 0
         labels_X = []
@@ -321,7 +322,7 @@ class App(Frame):
             labels_Y[i].place(x=POS_X, y=POS_Y+(LY*i), width=LX, height=LY)
         
         ##################
-        LX = LY = Tablero_cv_humano.SideCellPX
+        LX = LY = s.Tablero_cv_humano.SideCellPX
         POS_X = (s.Width/2)+LX
         POS_Y = (s.Height/2)
         labels_X = []
@@ -349,14 +350,236 @@ class App(Frame):
         
         s.CTL.Proyecto1.Btn_Cargar.config(command=s.__CargarProyecto1)
         ###########################################################
-        
+    
     def __CargarProyecto1(s):
         
+        F_Hum=s.CTL.Proyecto1.Fila_Humano.get()
+        C_Hum=s.CTL.Proyecto1.Columna_Humano.get()
+        
+        F_Oct=s.CTL.Proyecto1.Fila_Octopus.get()
+        C_Oct=s.CTL.Proyecto1.Columna_Octopus.get()
+        
+        F_Port=s.CTL.Proyecto1.Fila_Portal.get()
+        C_Port=s.CTL.Proyecto1.Columna_Portal.get()
+        
+        F_Templo=s.CTL.Proyecto1.Fila_Templo.get()
+        C_Templo=s.CTL.Proyecto1.Columna_Templo.get()
+        
+        F_Key=s.CTL.Proyecto1.Fila_Llave.get()
+        C_Key=s.CTL.Proyecto1.Columna_Llave.get()
         
         
         
+        F_Hum=2
+        C_Hum='A'
+                
+        F_Oct=15
+        C_Oct='A'
+                
+        F_Port=9
+        C_Port='D'
+                
+        F_Templo=4
+        C_Templo='M'
+                
+        F_Key=10
+        C_Key='N'
+        
+        H_Origen_Portal=0
+        H_Origen_Llave=0
+        H_Origen_Templo=0
+        H_Llave_Templo=0
+        H_Templo_Llave=0
+        H_Llave_Portal=0
+        H_Templo_Portal=0
+        
+        Archivo_Txt_Humano="Proyecto1/Humano.txt"
+        #===================HUMANO=================
+        
+        s.Tablero_cv_humano.paintCellOrigen(int(F_Hum)-1, ord(C_Hum)-65)
+        s.Tablero_cv_octopus.paintCellOrigen(int(F_Oct)-1, ord(C_Oct)-65)
+        
+        # Origen-Portal
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Hum), C_Hum),
+                          destino=(int(F_Port), C_Port),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        H_Origen_Portal=agente_P1.Costo_Total
+        
+        s.Tablero_cv_humano.paintCellPortal(int(F_Port)-1, ord(C_Port)-65)
+        s.Tablero_cv_octopus.paintCellPortal(int(F_Port)-1, ord(C_Port)-65)
         
         
+        # Origen-Llave
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Hum), C_Hum),
+                          destino=(int(F_Key), C_Key),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        H_Origen_Llave=agente_P1.Costo_Total
+        
+        # Origen-Templo
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Hum), C_Hum),
+                          destino=(int(F_Templo), C_Templo),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        H_Origen_Templo=agente_P1.Costo_Total
+        
+        # Llave-Templo
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Key), C_Key),
+                          destino=(int(F_Templo), C_Templo),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        s.Tablero_cv_humano.paintCellKey(agente_P1.F, agente_P1.C)
+        s.Tablero_cv_octopus.paintCellKey(agente_P1.F, agente_P1.C)
+        
+        H_Llave_Templo=agente_P1.Costo_Total
+        
+        
+        
+        # Templo-Llave
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Templo), C_Templo),
+                          destino=(int(F_Key), C_Key),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        # Se coloca al agente en el estado inicial
+        s.Tablero_cv_humano.paintCellTemplo(agente_P1.F, agente_P1.C)
+        s.Tablero_cv_octopus.paintCellTemplo(agente_P1.F, agente_P1.C)
+        
+        H_Templo_Llave=agente_P1.Costo_Total
+        
+        
+        
+        # Llave-Portal
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Key), C_Key),
+                          destino=(int(F_Port), C_Port),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        H_Llave_Portal=agente_P1.Costo_Total
+        
+        
+        # Templo-Portal
+        agente_P1 = Agente(Terreno(Archivo_Txt_Humano, ["L","D","R","U"]), 
+                          origen=(int(F_Templo), C_Templo),
+                          destino=(int(F_Port), C_Port),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        H_Templo_Portal=agente_P1.Costo_Total
+        
+        
+        O_Origen_Portal=0
+        O_Origen_Llave=0
+        O_Origen_Templo=0
+        O_Llave_Templo=0
+        O_Templo_Llave=0
+        O_Llave_Portal=0
+        O_Templo_Portal=0
+        
+        Archivo_Txt_Octopus = "Proyecto1/Octopus.txt"
+        #===================OCTOPUS=================
+        # Origen-Portal
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Oct), C_Oct),
+                          destino=(int(F_Port), C_Port),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        O_Origen_Portal=agente_P1.Costo_Total
+        
+        # Origen-Llave
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Oct), C_Oct),
+                          destino=(int(F_Key), C_Key),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        O_Origen_Llave=agente_P1.Costo_Total
+        
+        # Origen-Templo
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Oct), C_Oct),
+                          destino=(int(F_Templo), C_Templo),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        O_Origen_Templo=agente_P1.Costo_Total
+        
+        # Llave-Templo
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Key), C_Key),
+                          destino=(int(F_Templo), C_Templo),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        O_Llave_Templo=agente_P1.Costo_Total
+        
+        # Templo-Llave
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Templo), C_Templo),
+                          destino=(int(F_Key), C_Key),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        O_Templo_Llave=agente_P1.Costo_Total
+        
+        # Llave-Portal
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Key), C_Key),
+                          destino=(int(F_Port), C_Port),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        
+        O_Llave_Portal=agente_P1.Costo_Total
+        
+        # Templo-Portal
+        agente_P1 = Agente(Terreno(Archivo_Txt_Octopus, ["L","D","R","U"]), 
+                          origen=(int(F_Templo), C_Templo),
+                          destino=(int(F_Port), C_Port),
+                          color=COLOR_4)
+        if not agente_P1.calcular(1,True):
+            print("No se puede resolver")
+            return None
+        O_Templo_Portal=agente_P1.Costo_Total
+        
+    
         
         # print(s.CTL.Proyecto1.tv1.selection())
         
@@ -364,8 +587,8 @@ class App(Frame):
         s.CTL.Proyecto1.tv1.delete("I001")
         s.CTL.Proyecto1.tv1.delete("I002")
         
-        s.CTL.Proyecto1.tv1.insert("",END,iid="I001",text="Humano",values=("10","10","10","10","10","10","10"))
-        s.CTL.Proyecto1.tv1.insert("",END,iid="I002",text="Octopus",values=("0","0","0","20","0","0","20"))
+        s.CTL.Proyecto1.tv1.insert("",END,iid="I001",text="Humano",values=(str(H_Origen_Portal),str(H_Origen_Llave),str(H_Origen_Templo),str(H_Llave_Templo),str(H_Templo_Llave),str(H_Llave_Portal),str(H_Templo_Portal)))
+        s.CTL.Proyecto1.tv1.insert("",END,iid="I002",text="Octopus",values=(str(O_Origen_Portal),str(O_Origen_Llave),str(O_Origen_Templo),str(O_Llave_Templo),str(O_Templo_Llave),str(O_Llave_Portal),str(O_Templo_Portal)))
         
         
         # Actualizacion Tabla 2
@@ -383,16 +606,23 @@ class App(Frame):
         s.CTL.Proyecto1.tv2.delete("I009")
         s.CTL.Proyecto1.tv2.delete("I00A")
         
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I001",text="Humano",values=("7","7"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I002",text="Humano",values=("7","7"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I003",text="Humano",values=("7","7"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I004",text="Humano",values=("7","7"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I005",text="Humano",values=("7","7"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I006",text="Octopus",values=("8","8"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I007",text="Octopus",values=("8","8"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I008",text="Octopus",values=("8","8"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I009",text="Octopus",values=("8","8"))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I00A",text="Octopus",values=("8","8"))
+        
+        
+        
+        
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I001",text="Humano",values=("I-P",str(H_Origen_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I002",text="Humano",values=("I-K-P",str(H_Origen_Llave+H_Llave_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I003",text="Humano",values=("I-D-P",str(H_Origen_Templo+H_Templo_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I004",text="Humano",values=("I-K-D-P",str(H_Origen_Llave+H_Llave_Templo+H_Templo_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I005",text="Humano",values=("I-D-K-P",str(H_Origen_Templo+H_Templo_Llave+H_Llave_Portal)))
+        
+        # I_P=s.CTL.Proyecto1.tv2
+        
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I006",text="Octopus",values=("I-P",str(O_Origen_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I007",text="Octopus",values=("I-K-P",str(O_Origen_Llave+O_Llave_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I008",text="Octopus",values=("I-D-P",str(O_Origen_Templo+O_Templo_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I009",text="Octopus",values=("I-K-D-P",str(O_Origen_Llave+O_Llave_Templo+O_Templo_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I00A",text="Octopus",values=("I-D-K-P",str(O_Origen_Templo+O_Templo_Llave+O_Llave_Portal)))
         
         
         
@@ -401,6 +631,12 @@ class App(Frame):
         s.CTL.Proyecto1.tv3.delete("I001")
         s.CTL.Proyecto1.tv3.delete("I002")
         s.CTL.Proyecto1.tv3.delete("I003")
+        
+        
+        
+        
+        res_h=0
+        res_o=0
         
         s.CTL.Proyecto1.tv3.insert("",END,iid="I001",text="Humano",values=("1","2"))
         s.CTL.Proyecto1.tv3.insert("",END,iid="I002",text="Octopus",values=("0","3"))
