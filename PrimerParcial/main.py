@@ -195,6 +195,19 @@ class App(Frame):
             s.Tablero_cv.update()
             sleep(s.CTL.Auto.Scale_Velocidad.get())
         print("hecho")
+        
+        s.generaArbol()
+        
+    def generaArbol(s):
+        
+        s.agente.
+        
+        item=s.CTL.Arbol.insertar("","1")
+        item2=s.CTL.Arbol.insertar(item,"2")
+        s.CTL.Arbol.insertar(item,"jbhfb")
+        s.CTL.Arbol.insertar(item2,"4")
+        s.CTL.Arbol.insertar(item2,"oddd")
+        
 
     def __Pausar(s):
         pass
@@ -606,25 +619,42 @@ class App(Frame):
         s.CTL.Proyecto1.tv2.delete("I009")
         s.CTL.Proyecto1.tv2.delete("I00A")
         
+        diccH={
+            "I-P":H_Origen_Portal,
+            "I-K-P":H_Origen_Llave+H_Llave_Portal,
+            "I-D-P":H_Origen_Templo+H_Templo_Portal,
+            "I-K-D-P":H_Origen_Llave+H_Llave_Templo+H_Templo_Portal,
+            "I-D-K-P":H_Origen_Templo+H_Templo_Llave+H_Llave_Portal
+        }
         
-        
-        
-        
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I001",text="Humano",values=("I-P",str(H_Origen_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I002",text="Humano",values=("I-K-P",str(H_Origen_Llave+H_Llave_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I003",text="Humano",values=("I-D-P",str(H_Origen_Templo+H_Templo_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I004",text="Humano",values=("I-K-D-P",str(H_Origen_Llave+H_Llave_Templo+H_Templo_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I005",text="Humano",values=("I-D-K-P",str(H_Origen_Templo+H_Templo_Llave+H_Llave_Portal)))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I001",text="Humano",values=("I-P",str(diccH.get("I-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I002",text="Humano",values=("I-K-P",str(diccH.get("I-K-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I003",text="Humano",values=("I-D-P",str(diccH.get("I-D-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I004",text="Humano",values=("I-K-D-P",str(diccH.get("I-K-D-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I005",text="Humano",values=("I-D-K-P",str(diccH.get("I-D-K-P"))))
         
         # I_P=s.CTL.Proyecto1.tv2
+        diccO={
+            "I-P":O_Origen_Portal,
+            "I-K-P":O_Origen_Llave+O_Llave_Portal,
+            "I-D-P":O_Origen_Templo+O_Templo_Portal,
+            "I-K-D-P":O_Origen_Llave+O_Llave_Templo+O_Templo_Portal,
+            "I-D-K-P":O_Origen_Templo+O_Templo_Llave+O_Llave_Portal
+        }
         
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I006",text="Octopus",values=("I-P",str(O_Origen_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I007",text="Octopus",values=("I-K-P",str(O_Origen_Llave+O_Llave_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I008",text="Octopus",values=("I-D-P",str(O_Origen_Templo+O_Templo_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I009",text="Octopus",values=("I-K-D-P",str(O_Origen_Llave+O_Llave_Templo+O_Templo_Portal)))
-        s.CTL.Proyecto1.tv2.insert("",END,iid="I00A",text="Octopus",values=("I-D-K-P",str(O_Origen_Templo+O_Templo_Llave+O_Llave_Portal)))
+        
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I006",text="Octopus",values=("I-P",str(diccO.get("I-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I007",text="Octopus",values=("I-K-P",str(diccO.get("I-K-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I008",text="Octopus",values=("I-D-P",str(diccO.get("I-D-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I009",text="Octopus",values=("I-K-D-P",str(diccO.get("I-K-D-P"))))
+        s.CTL.Proyecto1.tv2.insert("",END,iid="I00A",text="Octopus",values=("I-D-K-P",str(diccO.get("I-D-K-P"))))
         
         
+        min_ruta_H = min(diccH, key=diccH.get)
+        min_valor_H = diccH[min_ruta_H]
+        
+        min_ruta_O = min(diccO, key=diccO.get)
+        min_valor_O = diccO[min_ruta_O]
         
         # Actualizacion Tabla 3
         
@@ -632,15 +662,9 @@ class App(Frame):
         s.CTL.Proyecto1.tv3.delete("I002")
         s.CTL.Proyecto1.tv3.delete("I003")
         
-        
-        
-        
-        res_h=0
-        res_o=0
-        
-        s.CTL.Proyecto1.tv3.insert("",END,iid="I001",text="Humano",values=("1","2"))
-        s.CTL.Proyecto1.tv3.insert("",END,iid="I002",text="Octopus",values=("0","3"))
-        s.CTL.Proyecto1.tv3.insert("",END,iid="I003",text="Total",values=("4","0"))
+        s.CTL.Proyecto1.tv3.insert("",END,iid="I001",text="Humano",values=(min_ruta_H,min_valor_H))
+        s.CTL.Proyecto1.tv3.insert("",END,iid="I002",text="Octopus",values=(min_ruta_O,min_valor_O))
+        s.CTL.Proyecto1.tv3.insert("",END,iid="I003",text="Total",values=("",str(min_valor_H+min_valor_O)))
         s.pack()
 
 if __name__ == '__main__':

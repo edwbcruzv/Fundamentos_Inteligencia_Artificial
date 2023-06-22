@@ -376,8 +376,13 @@ class LFArbol(LabelFrame):
         s.Height = 100
         # Constructor de Frame()
         super().__init__(master,text="Arbol", width=s.Width, height=s.Height, background=COLOR_9)
-        
+        s.TV=Treeview(s)
+        s.TV.pack()
         s.pack()
+        
+        
+    def insertar(s,antecesor_id:str,label:str):
+        return s.TV.insert(antecesor_id,END,text=label)
         
 class LFProyecto1(LabelFrame):
     
@@ -389,8 +394,8 @@ class LFProyecto1(LabelFrame):
         
         s.__entradaOrigenesDestinos(10,10)
         s.__tabla1(10,230)
-        s.__tabla2(10,320)
-        s.__tabla3(10,440)
+        s.__tabla2(10,300)
+        s.__tabla3(10,500)
         s.pack()
         
     def __entradaOrigenesDestinos(s,POS_X:int,POS_Y:int):
@@ -484,10 +489,11 @@ class LFProyecto1(LabelFrame):
         
         
     def __tabla2(s,POS_X:int,POS_Y:int):
-        ANCHO = 80
+        ANCHO = 150
         FILAS = 10
         
         ANCHO_TABLA=650
+        HEIGHT_TABLA=150
         
         s.tv2=Treeview(s,columns=(0,1),height=FILAS)
         s.tv2.heading(0,text="Ruta",anchor=CENTER)
@@ -499,7 +505,7 @@ class LFProyecto1(LabelFrame):
         
         
         scrbr=Scrollbar(s,orient="vertical",command=s.tv2.yview)
-        scrbr.place(x=POS_X+ANCHO_TABLA, y=POS_Y,height=110)
+        scrbr.place(x=POS_X+ANCHO_TABLA, y=POS_Y,height=HEIGHT_TABLA)
         
         s.tv2.config(yscrollcommand=scrbr.set)
         
@@ -514,7 +520,7 @@ class LFProyecto1(LabelFrame):
         s.tv2.insert("",END,text="Octopus",values=("0","0"))
         s.tv2.insert("",END,text="Octopus",values=("0","0"))
         
-        s.tv2.place(x=POS_X, y=POS_Y,width=ANCHO_TABLA, height=110)
+        s.tv2.place(x=POS_X, y=POS_Y,width=ANCHO_TABLA, height=HEIGHT_TABLA)
         
     def __tabla3(s,POS_X:int,POS_Y:int):
         ANCHO = 80
@@ -561,6 +567,8 @@ class Controls(Frame):
             s.Manual.destroy()
             s.Auto.destroy()
             s.Proyecto1.destroy()
+            s.Arbol.destroy()
+            
         except:
             print("No hay witgets")
         
@@ -576,6 +584,9 @@ class Controls(Frame):
             s.Manual.place(x=350,y=350)
             s.Manual.disabled()
             
+            s.Arbol=LFArbol(s)
+            s.Arbol.place(x=10,y=500)
+            
         elif s.Menu.Opcion_Tablero.get() == 1:
             s.Principal = LFPrincipal(s, True)
             s.Principal.place(x=10, y=100)
@@ -588,13 +599,13 @@ class Controls(Frame):
             s.Manual.place(x=350,y=350)
             s.Manual.disabled()
             
+            s.Arbol=LFArbol(s)
+            s.Arbol.place(x=10,y=500)
+            
         elif s.Menu.Opcion_Tablero.get() == 2:
             s.Proyecto1 = LFProyecto1(s)
             s.Proyecto1.place(x=10, y=100)
             
-        
-        # s.Arbol=LFArbol(s)
-        # s.Arbol.place(x=10,y=500)
         
     #     s.__pruebas()
     
