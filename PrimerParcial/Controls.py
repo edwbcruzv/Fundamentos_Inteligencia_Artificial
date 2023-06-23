@@ -1,7 +1,9 @@
 from tkinter import CENTER, END, BooleanVar, Checkbutton, IntVar, LabelFrame, Radiobutton, Tk, Label, Frame, Entry, Button, Scale
 from tkinter.ttk import Combobox, Scrollbar, Treeview
 from Constantes import *
-
+import networkx as nx
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 class LFMenu(LabelFrame):
     
@@ -376,13 +378,25 @@ class LFArbol(LabelFrame):
         s.Height = 100
         # Constructor de Frame()
         super().__init__(master,text="Arbol", width=s.Width, height=s.Height, background=COLOR_9)
-        s.TV=Treeview(s)
-        s.TV.pack()
+        s.G = nx.Graph()
+        s.fig = plt.figure(figsize=(6, 4), dpi=100)
         s.pack()
         
         
-    def insertar(s,antecesor_id:str,label:str):
-        return s.TV.insert(antecesor_id,END,text=label)
+    def generar(s,nodos:list):
+        
+        lista_nodos=[s.G.add_node(nodo.__str__()) for nodo in nodos]
+        ax = s.fig.add_subplot(111)
+        
+        # pos = nx.spring_layout(G)  # Por ejemplo, utiliza el layout "spring"
+        
+        nx.draw(s.G, with_labels=True, font_weight='bold')
+        # nx.draw(G, pos, with_labels=True, ax=ax)
+        
+        lienzo = FigureCanvasTkAgg(s.fig, master=s)
+        lienzo.draw()
+        lienzo.get_tk_widget().pack()
+        
         
 class LFProyecto1(LabelFrame):
     

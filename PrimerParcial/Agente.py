@@ -58,7 +58,7 @@ class Agente:
                 if op_algorit == 0:
                     Arbol_Solucion,self.Trayectoria = UCS_V(problema=self.Problema)
                 elif op_algorit == 1:
-                    Arbol_Solucion, self.Trayectoria = UCS_A(problema=self.Problema)
+                    Arbol_Solucion, self.Trayectoria = UCS_A(problema=self.Problema,info=True)
         except:
             print("El algoritmo no resolvio el problema.")
             return None

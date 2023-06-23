@@ -196,17 +196,11 @@ class App(Frame):
             sleep(s.CTL.Auto.Scale_Velocidad.get())
         print("hecho")
         
-        s.generaArbol()
+        # s.generaArbol()
         
     def generaArbol(s):
-        
-        s.agente.
-        
-        item=s.CTL.Arbol.insertar("","1")
-        item2=s.CTL.Arbol.insertar(item,"2")
-        s.CTL.Arbol.insertar(item,"jbhfb")
-        s.CTL.Arbol.insertar(item2,"4")
-        s.CTL.Arbol.insertar(item2,"oddd")
+        print(s.agente.Trayectoria_Completa)
+        s.CTL.Arbol.generar(s.agente.Trayectoria_Completa)
         
 
     def __Pausar(s):
@@ -383,20 +377,20 @@ class App(Frame):
         
         
         
-        F_Hum=2
-        C_Hum='A'
+        # F_Hum=2
+        # C_Hum='A'
                 
-        F_Oct=15
-        C_Oct='A'
+        # F_Oct=15
+        # C_Oct='A'
                 
-        F_Port=9
-        C_Port='D'
+        # F_Port=9
+        # C_Port='D'
                 
-        F_Templo=4
-        C_Templo='M'
+        # F_Templo=4
+        # C_Templo='M'
                 
-        F_Key=10
-        C_Key='N'
+        # F_Key=10
+        # C_Key='N'
         
         H_Origen_Portal=0
         H_Origen_Llave=0
