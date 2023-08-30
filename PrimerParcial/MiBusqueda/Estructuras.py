@@ -65,28 +65,20 @@ class Estado:
     def __hash__(self) -> int:
         return hash(self.Nombre*len(self.Nombre))
 
-class EstadoH(Estado):
-    
-    def __init__(self, nombre: str, acciones: list,heuristica:float|int) -> None:
-        super().__init__(nombre, acciones)
-        self.__Heuristica=heuristica
-        
-    @property
-    def Heuristica(self)->str:
-        return self.__Heuristica
 
 class Problema:
     """
     Modelo abstracto del problema segun la definicion y que es interpretada
     por cualquier algorito que necesite de ella.
     """
-    def __init__(self, estado_inicial: Estado, estados_objetivos: list, espacio_estados: dict|MutableMapping,costos:dict|MutableMapping=None) -> None:
+    def __init__(self, estado_inicial: Estado, estados_objetivos: list, espacio_estados: dict|MutableMapping,costos:dict|MutableMapping=None,fun_heuristica:callable=None) -> None:
         self.Estado_Inicial = estado_inicial
         self.Estados_Objetivos = estados_objetivos
         self.Espacio_Estados = espacio_estados
         self.__num_Objetivos=len(self.Estados_Objetivos)
         self.Costos=costos
         self.CostoInfinito=99999999999999999999
+        self.Funcion_Heuristica=fun_heuristica
         
         # se crea un objeto vacio para evitar problemas por no agregar los costos
         # y a cada accion se le da un costo de 1

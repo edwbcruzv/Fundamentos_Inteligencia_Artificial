@@ -12,8 +12,8 @@ def __nodoRaiz(problema: Problema) -> Nodo:  # Listo
         acciones_raiz = problema.Espacio_Estados[estado_raiz]
     raiz = NodoH(estado=estado_raiz, acciones=acciones_raiz)
     raiz.Costo = 0
-    raiz.Heuristica = estado_raiz.Heuristica
-    raiz.FNValor = raiz.Costo+raiz.Heuristica
+    raiz.Heuristica = 0
+    raiz.FNValor = 0
     return raiz
 
 
@@ -28,7 +28,7 @@ def __nodoHijo(problema: Problema, padre: Nodo, accion: Accion) -> Nodo:  # List
     costo = padre.Costo
     costo += problema.costoAccion(padre.Estado, accion)
     hijo.Costo = costo
-    hijo.Heuristica=nuevo_estado.Heuristica
+    hijo.Heuristica=problema.Funcion_Heuristica(nuevo_estado,problema.Estados_Objetivos[0])
     hijo.FNValor = hijo.Costo+hijo.Heuristica
     padre.addNodo(hijo)
     return hijo
@@ -85,7 +85,7 @@ def UCS_V(problema: Problema, info: bool = False):  # Listo
                           if nodo.Estado == hijo.Estado]
 
                 if buscar:
-                    print(hijo.Heuristica,buscar[0].Heuristica)
+                    # print(hijo.Heuristica,buscar[0].Heuristica)
                     if hijo.Heuristica < buscar[0].Heuristica:
                         indice = frontera.index(buscar[0])
                         frontera[indice] = hijo
@@ -145,6 +145,8 @@ def UCS_A(problema: Problema, info: bool = False):  # Listo
 
                 if buscar:
                     if hijo.FNValor < buscar[0].FNValor:
+                        print(hijo.__str__()+str(hijo.FNValor),end=" < ")
+                        print([nodo.__str__()+str(nodo.FNValor) for nodo in buscar])
                         indice = frontera.index(buscar[0])
                         frontera[indice] = hijo
             frontera.sort(key=lambda nodo: nodo.FNValor)

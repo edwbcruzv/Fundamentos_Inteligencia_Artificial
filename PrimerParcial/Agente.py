@@ -21,7 +21,7 @@ class Agente:
         try:
             self.Problema = Problema(estado_inicial=self.Laberinto.getEstado(origen[0],origen[1]),
                                 estados_objetivos=[self.Laberinto.getEstado(destino[0],destino[1])],
-                                espacio_estados=self.Laberinto.EspacioEstados)
+                                espacio_estados=self.Laberinto.EspacioEstados,costos=self.Laberinto.EspacioCostos,fun_heuristica=self.Laberinto.funHeuristica)
             self.__F, self.__C = self.__labelToCord(str(origen[0])+str(origen[1]))
         except:
             print("No se definio el problema correctamente")
@@ -49,7 +49,7 @@ class Agente:
         try:
             if not op_info:
                 if op_algorit==0:
-                    Arbol_Solucion,self.Trayectoria = BFS(problema=self.Problema,info=True)
+                    Arbol_Solucion,self.Trayectoria = BFS(problema=self.Problema)
                 elif op_algorit==1:
                     Arbol_Solucion, self.Trayectoria = DFS(problema=self.Problema)
                 elif op_algorit==2:
